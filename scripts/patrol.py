@@ -719,7 +719,7 @@ class Patrol():
                     success_chance += game.config["patrol_generation"]["better_stat_modifier"]
                 elif "fantastic" in kitty.skill or "excellent" in kitty.skill or "extremely" in kitty.skill:
                     success_chance += game.config["patrol_generation"]["best_stat_modifier"]
-            if kitty.personality.personality.trait in self.patrol_event.win_trait:
+            if kitty.personality.trait in self.patrol_event.win_trait:
                 success_chance += game.config["patrol_generation"]["win_stat_cat_modifier"]
             if kitty.skill in self.patrol_event.fail_skills:
                 success_chance += game.config["patrol_generation"]["fail_stat_cat_modifier"]
