@@ -1043,7 +1043,7 @@ class PatrolScreen(Screens):
                                                                            manager=MANAGER)
 
             self.elements['selected_bio'] = pygame_gui.elements.UITextBox(str(self.selected_cat.status) +
-                                                                          "\n" + str(self.selected_cat.trait) +
+                                                                          "\n" + str(self.selected_cat.personality.trait) +
                                                                           "\n" + str(self.selected_cat.skill) +
                                                                           "\n" + str(
                 self.selected_cat.experience_level) +
