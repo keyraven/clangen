@@ -889,22 +889,22 @@ class Cat():
                 else:
                     mentor = Cat.fetch_cat(self.former_mentor[0])
 
-            influence_trait = None
             number_patrols = int(self.patrol_with_mentor)
-            facets = ["Lawfulness", "Sociability", "Aggression", "Stability"]
+            facets = Personality.facet_types
             # affecting facet based on mentor influence
             for n in range(0, number_patrols):
                 facet_choice = choice(facets)
-                remove = facets.index(facet_choice)
-                facets.pop(remove)
                 facet_change = Personality.mentor_facet_influence(self, mentor, facet_choice)
                 self.personality[facet_choice] = self.personality[facet_choice] + facet_change
+                if facet_change == 1:
+                    raised = True
+                else:
+                    raised = False
+                self.history_class.add_mentor_influence(self, mentor, skill=None, facet=facet_choice, raised=raised)
 
             if not Personality.is_trait_valid(self):
                 Personality.choose_trait(self)
 
-            self.history_class.add_mentor_influence(self, mentor, skill=None, trait=influence_trait)
-        
         return
 
     def describe_cat(self, short=False):
@@ -1509,10 +1509,10 @@ class Cat():
                                 possible_skill = self.skill_groups.get(x)
                                 self.skill = choice(possible_skill)
                                 skill_influence = self.skill
-                                self.history_class.add_mentor_influence(self, mentor, skill_influence, trait=None)
+                                self.history_class.add_old_mentor_influence(self, mentor, skill_influence, trait=None)
                                 return
 
-                    self.history_class.add_mentor_influence(self, mentor, skill_influence, trait=None)
+                    self.history_class.add_old_mentor_influence(self, mentor, skill_influence, trait=None)
 
                 # Will only be reached if a mentor skill was not applied.
                 self.skill = choice(self.med_skills)
@@ -1535,10 +1535,10 @@ class Cat():
                                 possible_skill = self.skill_groups.get(x)
                                 self.skill = choice(possible_skill)
                                 skill_influence = self.skill
-                                self.history_class.add_mentor_influence(self, mentor, skill_influence, trait=None)
+                                self.history_class.add_old_mentor_influence(self, mentor, skill_influence, trait=None)
                                 return
 
-                    self.history_class.add_mentor_influence(self, mentor, skill_influence, trait=None)
+                    self.history_class.add_old_mentor_influence(self, mentor, skill_influence, trait=None)
 
                 self.skill = choice(self.skills)
 
@@ -1557,7 +1557,7 @@ class Cat():
                                 possible_skill = self.skill_groups.get(x)
                                 self.skill = choice(possible_skill)
                                 skill_influence = self.skill
-                                self.history_class.add_mentor_influence(self, mentor, skill_influence, trait=None)
+                                self.history_class.add_old_mentor_influence(self, mentor, skill_influence, trait=None)
                                 return
 
                     all_skills = []
@@ -1565,7 +1565,7 @@ class Cat():
                         all_skills.extend(self.skill_groups[x])
                     self.skill = choice(all_skills)
 
-                    self.history_class.add_mentor_influence(self, mentor, skill_influence, trait=None)
+                    self.history_class.add_old_mentor_influence(self, mentor, skill_influence, trait=None)
 
 
             # assign new skill to elder

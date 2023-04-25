@@ -159,7 +159,7 @@ class History:
             "moon": game.clan.age
         }
 
-    def add_mentor_influence(self, cat, mentor, skill, trait):
+    def add_mentor_influence(self, cat, mentor, skill, facet, raised):
         """
         adds mentor influence to the cat's history save
         :param cat: cat object
@@ -168,6 +168,10 @@ class History:
         :param trait: the personality group given by the mentor
         """
         self.check_load(cat)
+        if raised:
+            raise_lower = "_raise"
+        else:
+            raise_lower = "_lower"
 
         # working under the impression that these blurbs will be preceeded by "more likely to"
         influence_text = {
@@ -197,6 +201,32 @@ class History:
                 "behave erratically", "make impulsive decisions"
             ]
         }
+        key = str(facet + raise_lower)
+
+        if mentor:
+            mentor = mentor.ID
+            cat.history.mentor_influence["mentor"] = mentor if mentor else None
+        if skill:
+            cat.history.mentor_influence["skill"] = skill if skill else None
+        if facet:
+            cat.history.mentor_influence["facet"] = random.choice(influence_text[key]) if facet else None
+
+        if "mentor" not in cat.history.mentor_influence:
+            cat.history.mentor_influence["mentor"] = None
+        if "skill" not in cat.history.mentor_influence:
+            cat.history.mentor_influence["skill"] = None
+        if "facet" not in cat.history.mentor_influence:
+            cat.history.mentor_influence["facet"] = None
+
+    def add_old_mentor_influence(self, cat, mentor, skill, trait):
+        """
+        adds mentor influence to the cat's history save
+        :param cat: cat object
+        :param mentor: the ID of the mentor who influenced the cat
+        :param skill: the skill that was given by the mentor
+        :param trait: the personality group given by the mentor
+        """
+        self.check_load(cat)
 
         if mentor:
             mentor = mentor.ID
