@@ -241,8 +241,8 @@ class Cat():
         self.backstory = backstory
         self.age = None
         self.skill = None
-        self.personality = Personality(trait="troublesome", lawful=0, aggress=0,
-                                       stable=0, social=0)
+        self.trait = None
+        self.facets = None
         self.parent1 = parent1
         self.parent2 = parent2
         self.adoptive_parents = []
@@ -879,7 +879,34 @@ class Cat():
     def update_traits(self):
         """Updates the trait to grab from the correct list, and wobbles the facets """  
         self.personality.set_kit(self.is_baby()) #Update kit trait stuff
-        self.personality.facet_wobble() #Slighly change the facet values
+        if self.status in ["apprentice", "medicine cat apprentice", "mediator apprentice"]:
+            self.personality.facet_wobble() #Slighly change the facet values
+        elif self.status in ["warrior", "medicine cat", "mediator"]:
+            mentor = None
+            if self.mentor:
+                mentor = Cat.fetch_cat(self.mentor)
+            elif not self.mentor and len(self.former_mentor) != 0:
+                if len(self.former_mentor) > 1:
+                    mentor = Cat.fetch_cat(self.former_mentor[-1])
+                else:
+                    mentor = Cat.fetch_cat(self.former_mentor[0])
+
+            influence_trait = None
+            number_patrols = int(self.patrol_with_mentor)
+            facets = ["Lawfulness", "Sociability", "Aggression", "Stability"]
+            # affecting facet based on mentor influence
+            for n in range(0, number_patrols):
+                facet_choice = choice(facets)
+                remove = facets.index(facet_choice)
+                facets.pop(remove)
+                facet_change = Personality.mentor_facet_influence(self, mentor, facet_choice)
+                self.personality[facet_choice] = self.personality[facet_choice] + facet_change
+
+            if not Personality.is_trait_valid(self):
+                Personality.choose_trait(self)
+
+            self.history_class.add_mentor_influence(self, mentor, skill=None, trait=influence_trait)
+        
         return
 
     def describe_cat(self, short=False):
@@ -3189,7 +3216,7 @@ class Personality():
             
     @property
     def stability(self):
-        return self._aggress
+        return self._stable
     
     @stability.setter
     def stability(self, new_val):
@@ -3282,6 +3309,22 @@ class Personality():
         self.stability += randint(-max, max)
         self.aggression += randint(-max, max)
         self.sociability += randint(-max, max)
+
+    def mentor_facet_influence(Cat, mentor, facet):
+        difference = None
+        mentor_value = int(mentor.personality[facet])
+        app_value = int(Cat.personality[facet])
+
+        difference = mentor_value - app_value
+
+        if difference > 0:
+            change = 1
+        elif difference < 0:
+            change = -1
+        else:
+            change = 0
+        
+        return change
         
 
 # Twelve example cats
