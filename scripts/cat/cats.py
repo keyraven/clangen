@@ -241,8 +241,6 @@ class Cat():
         self.backstory = backstory
         self.age = None
         self.skill = None
-        self.trait = None
-        self.facets = None
         self.parent1 = parent1
         self.parent2 = parent2
         self.adoptive_parents = []
