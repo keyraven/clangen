@@ -1422,6 +1422,51 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
                 temp.blit(new_sprite, (0, 0))
                 new_sprite = temp
 
+        #Pride Stuff, if the toggle is enabled
+        if game.config["fun"]["pride"]:
+            
+            # RAINBOW FLOWER CROWN
+            _flag = False
+            if game.config["fun"]["all_rainbow"]:
+                _flag = True
+            else:
+                # Ugly code to determine if a cat is in a queer relationship.
+                
+                is_straight = {
+                    "female": ["male",  "trans male"],
+                    "male": ["female", "trans female"],
+                    "trans male": ["female", "trans female"],
+                    "trans female": ["male", "trans male"]
+                }
+                
+                
+                for _mate in cat.mate:
+                    # Not sure how to do this for non-binary cats, so any non-binary
+                     # cat in a relationship always gets one. 
+                    if cat.genderalign not in is_straight:
+                        _flag = True
+                        break
+                    
+                    # Protection again invalid mates
+                    if not isinstance(cat.fetch_cat(_mate), type(cat)):
+                        continue
+                    
+                    if cat.fetch_cat(_mate).genderalign not in is_straight.get(cat.genderalign, []):
+                        _flag = True
+                        break
+                    
+            if _flag:
+                # Give crown
+                pass   
+            
+            # TRANS FLAG
+            if cat.genderalign.strip() == "nonbinary":
+                # Give non binary flag
+                pass
+            elif cat.genderalign.strip().lower() != cat.gender.split():
+                # Give trans flag
+                pass
+
         # reverse, if assigned so
         if cat.pelt.reverse:
             new_sprite = pygame.transform.flip(new_sprite, True, False)

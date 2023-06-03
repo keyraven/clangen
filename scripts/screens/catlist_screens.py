@@ -6,6 +6,7 @@ from random import choice
 import pygame_gui
 import traceback
 from copy import deepcopy
+from os.path import exists as file_exists
 
 from .base_screens import Screens, cat_profiles
 
@@ -257,8 +258,10 @@ class ClanScreen(Screens):
 
         all_backgrounds = []
         for leaf in leaves:
-            platform_dir = f'{camp_bg_base_dir}/{biome}/{leaf}_{camp_nr}_{light_dark}.png'
-            all_backgrounds.append(platform_dir)
+            platform_dir = f'{camp_bg_base_dir}/{biome}/{leaf}_{camp_nr}_{light_dark}'
+            if game.config["fun"]["pride"] and file_exists(platform_dir + "_pride.png"):
+                platform_dir += "_pride"
+            all_backgrounds.append(platform_dir + ".png")
 
         self.newleaf_bg = pygame.transform.scale(
             pygame.image.load(all_backgrounds[0]).convert(), (screen_x, screen_y))
@@ -363,7 +366,6 @@ class ClanScreen(Screens):
                 game.clan.leader.placement = self.choose_nonoverlapping_positions(first_choices, all_dens,
                                                                                   [1, 200, 1, 1, 1, 1, 1])
                                                                                   
-
     def update_buttons_and_text(self):
         if game.switches['saved_clan']:
             self.save_button_saving_state.hide()
