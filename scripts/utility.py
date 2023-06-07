@@ -1458,18 +1458,21 @@ def apply_pride(new_sprite, cat) -> pygame.Surface:
             _flag = True
         else:
             for _mate in cat.mate:
-                # Not sure how to do this for non-binary cats, so any non-binary
-                # cat in a relationship always gets one. 
-                
-                
                 # Protection again invalid mates
+                
+                # Not sure how to handle non-binary cats, so any nonbinary
+                # cat in a relationship gets a crown
+                if cat.genderalign not in is_straight:
+                    _flag = True
+                    break
+                
                 if not isinstance(cat.fetch_cat(_mate), type(cat)):
                     continue
                 
                 if cat.fetch_cat(_mate).genderalign not in is_straight.get(cat.genderalign, []):
                     _flag = True
                     break
-            
+                
     if _flag:
         print(f"{cat.name} gets a flower crown!")
         pass   
