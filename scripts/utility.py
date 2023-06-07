@@ -1250,8 +1250,8 @@ def update_sprite(cat):
     cat.all_cats[cat.ID] = cat
 
 
-def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, always_living=False, 
-                    no_not_working=False) -> pygame.Surface:
+def generate_sprite(cat, life_state:str=None, scars_hidden:bool=False, acc_hidden:bool=False, always_living:bool=False, 
+                    no_not_working:bool=False) -> pygame.Surface:
     """Generates the sprite for a cat, with optional arugments that will override certain things. 
         life_stage: sets the age life_stage of the cat, overriding the one set by it's age. Set to string. 
         scar_hidden: If True, doesn't display the cat's scars. If False, display cat scars. 
@@ -1421,51 +1421,10 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
                 temp.blit(new_sprite, (0, 0))
                 new_sprite = temp
 
-        #Pride Stuff, if the toggle is enabled
+        #Pride Month Stuff, if the toggle is enabled
         if game.config["fun"]["pride"]:
-            
-            # RAINBOW FLOWER CROWN
-            _flag = False
-            if game.config["fun"]["all_rainbow"]:
-                _flag = True
-            else:
-                # Ugly code to determine if a cat is in a queer relationship.
-                
-                is_straight = {
-                    "female": ["male",  "trans male"],
-                    "male": ["female", "trans female"],
-                    "trans male": ["female", "trans female"],
-                    "trans female": ["male", "trans male"]
-                }
-                
-                
-                for _mate in cat.mate:
-                    # Not sure how to do this for non-binary cats, so any non-binary
-                     # cat in a relationship always gets one. 
-                    if cat.genderalign not in is_straight:
-                        _flag = True
-                        break
-                    
-                    # Protection again invalid mates
-                    if not isinstance(cat.fetch_cat(_mate), type(cat)):
-                        continue
-                    
-                    if cat.fetch_cat(_mate).genderalign not in is_straight.get(cat.genderalign, []):
-                        _flag = True
-                        break
-                    
-            if _flag:
-                # Give crown
-                pass   
-            
-            # TRANS FLAG
-            if cat.genderalign.strip() == "nonbinary":
-                # Give non binary flag
-                pass
-            elif cat.genderalign.strip().lower() != cat.gender.split():
-                # Give trans flag
-                pass
-
+            apply_pride(new_sprite, cat)
+           
         # reverse, if assigned so
         if cat.pelt.reverse:
             new_sprite = pygame.transform.flip(new_sprite, True, False)
@@ -1477,6 +1436,52 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
         new_sprite = image_cache.load_image(f"sprites/error_placeholder.png").convert_alpha()
 
     return new_sprite
+
+
+def apply_pride(new_sprite, cat) -> pygame.Surface:
+    """Applies the fun little pride "accessories" for the pride month toggle! """
+     # RAINBOW FLOWER CROWN
+    _flag = False
+    if game.config["fun"]["all_rainbow"]:
+        _flag = True
+    else:
+        # Ugly code to determine if a cat is in a queer relationship.
+        
+        is_straight = {
+            "female": ["male",  "trans male"],
+            "male": ["female", "trans female"],
+            "trans male": ["female", "trans female"],
+            "trans female": ["male", "trans male"]
+        }
+        
+        if cat.genderalign not in is_straight:
+            _flag = True
+        else:
+            for _mate in cat.mate:
+                # Not sure how to do this for non-binary cats, so any non-binary
+                # cat in a relationship always gets one. 
+                
+                
+                # Protection again invalid mates
+                if not isinstance(cat.fetch_cat(_mate), type(cat)):
+                    continue
+                
+                if cat.fetch_cat(_mate).genderalign not in is_straight.get(cat.genderalign, []):
+                    _flag = True
+                    break
+            
+    if _flag:
+        print(f"{cat.name} gets a flower crown!")
+        pass   
+    
+    # TRANS FLAG
+    if cat.genderalign.strip() == "nonbinary":
+        print(f"{cat.name} gets a nonbinary flag!")
+        pass
+    elif cat.genderalign.strip().lower() != cat.gender.strip():
+        print(f"{cat.name} gets a trans flag!")
+        pass
+
 
 def apply_opacity(surface, opacity):
     for x in range(surface.get_width()):

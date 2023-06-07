@@ -373,8 +373,8 @@ for a, i in enumerate(['DARKMARBLED', 'MARBLED', 'LIGHTMARBLED', 'DARKBLUE', 'BL
     
 #PRIDE, only load if pride config is true
 if game.config["fun"]["pride"] and 0:
-    for a, i in enumerate(["PRIDE_RAINBOW", "PRIDE_TRANS", "PRIDE_NB"]):
-        sprites.make_group('pride', (a, 0), f'pride{i}')
+    for a, i in enumerate(["RAINBOW", "TRANS", "NB"]):
+        sprites.make_group('pride', (a, 0), f'pride_{i}')
 
 
 sprites.load_scars()
