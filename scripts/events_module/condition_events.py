@@ -106,7 +106,7 @@ class Condition_Events():
                 random.random() * game.get_config_value("condition_related", f"{game.clan.game_mode}_illness_chance"))
             if not cat.dead and not cat.is_ill() and random_number <= 10 and not event_string:
                 season_dict = Condition_Events.ILLNESSES_SEASON_LIST[season]
-                chosen_illness = random.choices(season_dict.keys(), weights=season_dict.values(), k=1)[0]
+                chosen_illness = random.choices(list(season_dict.keys()), weights=list(season_dict.values()), k=1)[0]
                 # if a non-kitten got kittencough, switch it to whitecough instead
                 if chosen_illness == 'kittencough' and cat.status != 'kitten':
                     chosen_illness = 'whitecough'

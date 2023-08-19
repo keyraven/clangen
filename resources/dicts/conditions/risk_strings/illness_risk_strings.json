@@ -77,6 +77,24 @@
             "m_c wakes from yet another nightmare, feeling as though {PRONOUN/m_c/subject}{VERB/m_c/'re/'s} being haunted by the ghost of the one {PRONOUN/m_c/subject} {VERB/m_c/grieve/grieves}.",
             "m_c wakes and wails, {PRONOUN/m_c/poss} dreams haunted by visions of {PRONOUN/m_c/poss} dead loved one.",
             "m_c jolts awake and immediately leaves the den to clear {PRONOUN/m_c/poss} head, hoping some fresh night air will help {PRONOUN/m_c/object} cope with the sadness and memories."
+        ],
+        "persistent lethergy": [
+            "Although m_c's grief has waned, a deep tiredness has settled in {PRONOUN/m_c/poss} bones",
+            "Although m_c's grief has waned, a deep tiredness has settled in {PRONOUN/m_c/poss} bones"
+        ]
+    },
+    "lethergy": {
+        "persistent lethergy": [
+            "r_c tells m_c that it seems {PRONOUN/m_c/poss} lethergy might never fully resolve.",
+            "m_c's lethergy might never fully resolve."
+        ],
+        "whitecough": [
+            "m_c's lethergy has made them suspectable to whitecough.",
+            "m_c's lethergy has made them suspectable to whitecough."
+        ],
+        "sore": [
+            "m_c has gotten sore from their persistent lethargy",
+            "m_c has gotten sore from their persistent lethargy"
         ]
     }
 }
