@@ -106,15 +106,7 @@ class Condition_Events():
                 random.random() * game.get_config_value("condition_related", f"{game.clan.game_mode}_illness_chance"))
             if not cat.dead and not cat.is_ill() and random_number <= 10 and not event_string:
                 season_dict = Condition_Events.ILLNESSES_SEASON_LIST[season]
-                possible_illnesses = []
-
-                # pick up possible illnesses from the season dict
-                for illness_name in season_dict:
-                    possible_illnesses += [illness_name] * season_dict[illness_name]
-
-                # pick a random illness from those possible
-                random_index = int(random.random() * len(possible_illnesses))
-                chosen_illness = possible_illnesses[random_index]
+                chosen_illness = random.choices(season_dict.keys(), weights=season_dict.values(), k=1)[0]
                 # if a non-kitten got kittencough, switch it to whitecough instead
                 if chosen_illness == 'kittencough' and cat.status != 'kitten':
                     chosen_illness = 'whitecough'
@@ -801,7 +793,7 @@ class Condition_Events():
         if dictionary == cat.permanent_condition:
             event_triggered = True
         for risk in conditions[condition]["risks"]:
-            if risk["name"] in (cat.injuries or cat.illnesses):
+            if risk["name"] in cat.injuries or risk["name"] in cat.illnesses or risk["name"] in cat.permanent_condition:
                 continue
             if risk["name"] == 'an infected wound' and 'a festering wound' in cat.illnesses:
                 continue

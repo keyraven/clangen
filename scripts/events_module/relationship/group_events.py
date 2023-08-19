@@ -563,12 +563,13 @@ class Group_Events():
             )
 
     @staticmethod
-    def injuring_cats():
+    def injuring_cats() -> bool:
         """
         Injuring the cats based on the list of the injuries of the chosen group interaction.
+        Return True in an injury was given
         """
         if not Group_Events.chosen_interaction.get_injuries.items:
-            return
+            return False
 
         for abbreviations, injury_dict in Group_Events.chosen_interaction.get_injuries.items():
             if "injury_names" not in injury_dict:
@@ -590,6 +591,8 @@ class Group_Events():
                 for condition in injuries:
                     History.add_possible_history(injured_cat, condition, death_text=possible_death, scar_text=possible_scar)
 
+        return True
+    
     @staticmethod
     def prepare_text(text: str) -> str:
         """Prep the text based of the amount of cats and the assigned abbreviations."""

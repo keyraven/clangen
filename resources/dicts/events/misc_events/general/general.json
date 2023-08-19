@@ -37,6 +37,16 @@
             "Leaf-fall",
             "Leaf-bare"
         ],
+        "event_text": "m_c overslept, missing the Dawn Patrol."
+    },
+    {
+        "camp": "any",
+        "tags": [
+            "Newleaf",
+            "Greenleaf",
+            "Leaf-fall",
+            "Leaf-bare"
+        ],
         "event_text": "m_c believes {PRONOUN/m_c/subject}'{VERB/m_c/re/s} meant for something greater."
     },
     {

@@ -605,5 +605,38 @@
             "poppy",
             "juniper"
         ]
+    },
+    "persistent lethargy": {
+        "severity": "major",
+        "congenital": "sometimes",
+        "moons_until": 4,
+        "mortality": {
+            "newborn": 0,
+            "kitten": 0,
+            "adolescent": 0,
+            "young adult": 0,
+            "adult": 0,
+            "senior adult": 0,
+            "senior": 0
+        },
+        "illness_infectiousness": [
+        ],
+        "risks": [
+            {
+                "name": "lethargy",
+                "chance": 20
+            },
+            {
+                "name": "whitecough",
+                "chance": 40
+            },
+            {
+                "name": "sore",
+                "chance": 20
+            }
+        ],
+        "herbs": [
+            "poppy"
+        ]
     }
 }

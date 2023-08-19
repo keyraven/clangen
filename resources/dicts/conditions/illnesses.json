@@ -201,6 +201,10 @@
             {
                 "name": "a festering wound",
                 "chance": 10
+            },
+            {
+                "name": "persistent lethargy",
+                "chance": 150
             }
         ],
         "herbs": [
@@ -234,7 +238,9 @@
         "medicine_duration": 2,
         "infectiousness": 0,
         "risks": [],
-        "herbs": []
+        "herbs": [
+            "juniper"
+        ]
     },
     "redcough": {
         "severity": "severe",
@@ -373,6 +379,10 @@
             {
                 "name": "redcough",
                 "chance": 80
+            },
+            {
+                "name": "persistent lethargy",
+                "chance": 100
             }
         ],
         "herbs": [
@@ -402,7 +412,12 @@
         "duration": 3,
         "medicine_duration": 2,
         "infectiousness": 0,
-        "risks": [],
+        "risks": [
+            {
+                "name": "persistent lethargy",
+                "chance": 110
+            }
+        ],
         "herbs": [
             "marigold",
             "burdock",
@@ -571,7 +586,11 @@
         "risks": [
             {
                 "name": "lasting grief",
-                "chance": 100
+                "chance": 90
+            },
+            {
+                "name": "persistent lethargy",
+                "chance": 90
             },
             {
                 "name": "constant nightmares",
@@ -638,6 +657,44 @@
         "risks": [],
         "herbs": [
             "thyme"
+        ]
+    },
+    "lethargy": {
+        "severity": "major",
+        "mortality": {
+            "newborn": 0,
+            "kitten": 0,
+            "adolescent": 0,
+            "young adult": 0,
+            "adult": 0,
+            "senior adult": 0,
+            "senior": 0
+        },
+        "medicine_mortality": {
+            "newborn": 0,
+            "kitten": 0,
+            "adolescent": 0,
+            "young adult": 0,
+            "adult": 0,
+            "senior adult": 0,
+            "senior": 0
+        },
+        "duration": 1,
+        "medicine_duration": 1,
+        "infectiousness": 0,
+        "risks": [
+            {
+                "name": "whitecough",
+                "chance": 25
+            },
+            {
+                "name": "sore",
+                "chance": 10
+            },
+            {
+                "name": "persistent lethargy",
+                "chance": 80
+            }
         ]
     }
 }
