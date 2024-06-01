@@ -1,0 +1,59 @@
+{
+    "name": "Classic",
+    "build-steps":
+    [
+        {
+            "group-name": "mask",
+            "re-color": "base-0"
+        },
+        {
+            "group-name": "baseGradientOne",
+            "re-color": "gradient-0"
+        },
+        {
+            "group-name": "classicStripes",
+            "re-color": "accent-0"
+        },
+        {
+            "group-name": "darkCounterShade",
+            "re-color": "gradient-1",
+            "mask-group-name": "classicStripes"
+        }
+    ],
+    "exceptions": {
+        "CHOCOLATE12": [
+            [
+                {
+                    "group-name": "mask",
+                    "re-color": "base-1"
+                },
+                {
+                    "group-name": "classicStripes",
+                    "re-color": "accent-2"
+                },
+                {
+                    "group-name": "darkCounterShade",
+                    "re-color": "gradient-2",
+                    "mask-group-name": "classicStripes"
+                }
+            ]
+        ],
+        "CHOCOLATE*": [
+            [
+                {
+                    "group-name": "mask",
+                    "re-color": "base-1"
+                },
+                {
+                    "group-name": "classicStripes",
+                    "re-color": "accent-2"
+                },
+                {
+                    "group-name": "darkCounterShade",
+                    "re-color": "gradient-2",
+                    "mask-group-name": "classicStripes"
+                }
+            ]
+        ]
+    }
+}       
