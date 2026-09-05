@@ -27,11 +27,11 @@ This is how the linearts -spritesheet looks like, as an example.
 
 ![image](https://github.com/ClanGenOfficial/clangen/assets/54122046/e20c47b7-0786-4620-bcc0-a5ea4e216364)
 
-Pelt, white patch, scar and accessory spritesheets that have multiple pose sheets, look somewhat like this:
+Some spritesheets (like white patches, scar, and accessory) have multiple pose sheets, look somewhat like this:
 
 ![image](https://github.com/ClanGenOfficial/clangen/assets/54122046/e615ac11-1cee-41c1-a4a9-cbeffafde358)
 
-Some spritesheets are made to be masks rather than be drawn normally. At the time of writing this, the spritesheets that work as masks are the tortie patch and the missing limb scar spritesheets. We'll go over their uses individually.
+Some spritesheets are made to be masks rather than be drawn normally. At the time of writing this, the spritesheets that work as masks are the tortie patch, missing limb scar spritesheets, and pelt parts. We'll go over their uses individually.
 
 ## Lineart
 ![lineart](https://github.com/ClanGenOfficial/clangen/assets/115410010/941684e8-7ca7-4575-8fea-86860555c6a8)
