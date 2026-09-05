@@ -27,9 +27,9 @@ This is how the linearts -spritesheet looks like, as an example.
 
 ![image](https://github.com/ClanGenOfficial/clangen/assets/54122046/e20c47b7-0786-4620-bcc0-a5ea4e216364)
 
-Some spritesheets (like white patches, scar, and accessory) have multiple pose sheets, look somewhat like this:
+Some spritesheets (like white patches, scar, and accessory) have multiple pose sheets, look somewhat like this: (Only part of the sheet is shown - these can get big!)
 
-![image](https://github.com/ClanGenOfficial/clangen/assets/54122046/e615ac11-1cee-41c1-a4a9-cbeffafde358)
+![image](../../../../docs-resources/assets/dev/art/cat-sprites/multi-sheet-example.png))
 
 Some spritesheets are made to be masks rather than be drawn normally. At the time of writing this, the spritesheets that work as masks are the tortie patch, missing limb scar spritesheets, and pelt parts. We'll go over their uses individually.
 
@@ -85,14 +85,14 @@ _I’m sure you can see the difference ^^_
 Cat pelts are specific patterns on the cats that come in multiple colors.
 I’ll be referring to the stripes and spots and other markings on those as “patterns” and the colors underneath the markings as “base color”.
 
+At runtime, the game constructs pelts by recoloring and layering various "pelt parts."  This includes gradients, pattern, and the base color. Keep this in mind when drawing new pelts. 
+
 Pattern shapes should be clearly defined, not smudgy or blendy, and the more subtle differences in the fur color are shown with gradients. Airbrush is very good for the gradients. There are exceptions, but clear pattern shapes are preferred, and often gradient colors soften the bluntness of the pattern shapes anyway.
 
 Oftentimes the gradient on the pattern is in reality more dramatic than what you’d expect looking at them, so don’t be afraid to make yours properly visible as well. You can look at already existing pelts to see if yours is visible enough.
 
 !!! tip
     Personally I use a pure black airbrush to make most of the pattern gradients. The result isn’t an actual black of course, because of the softness of the brush, it just darkens any color a good amount to be a visible change.
-
-![image](https://github.com/ClanGenOfficial/clangen/assets/115410010/df106031-ed6d-40bf-bce4-08a61e062ed7)
 
 Kittens usually have very simplistic pattern shapes designs compared to others. This is to keep the ‘simple is cute’ look, but also so that their small size doesn’t make the patterns look too cluttered.
 
@@ -102,9 +102,7 @@ WHITE, PALEGREY, SILVER, GREY, DARKGREY, GHOST, BLACK,
 CREAM, PALEGINGER, GOLDEN, GINGER, DARKGINGER, SIENNA,
 LIGHTBROWN, LILAC, BROWN, GOLDEN-BROWN, DARKBROWN and CHOCOLATE.
 
-Every pelt type should be colored in all of those 19 colors. If any new colors are added in future, those colors are added to the existing pelts also.
-
-While the colors can be quite straightforward with how they’re colored, there are some general rules as well as individual color quirks to a few of them that should be followed.
+While the colors can be quite straightforward with how they’re colored, there are some general rules as well as individual color quirks to a few of them that should be followed.  
 
 ### General:
 

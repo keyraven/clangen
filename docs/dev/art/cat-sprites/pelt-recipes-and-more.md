@@ -1,0 +1,233 @@
+# Pelt Recipes and More
+_(by keyraven)_
+
+## Overview
+
+Patterns (ie, "Pelts") are built by recoloring and layering various assets. These assets are masks, and are therefore all white and transparent.  Below is an example of a mask - this one showing a tabby pattern. (The normally white mask is black for visibility.) 
+
+## Color Palettes 
+
+Each cat-color has a palette of colors, stored in sprites/dicts/pelt_color_palettes.json.  This is a dictionary of hex-codes matched to color names. Color names are arbitrary, and only referred to in the later Pelt Recipes. Each cat-color should have the same list of color names. 
+
+```
+{
+    "WHITE": {
+        "base": "#EEF9FC",
+        "base_gradient_bottom": "#F4FBF4",
+        "base_gradient_top": "#EEF9FC",
+        "pattern": "#C8D9DE",
+        "pattern_gradient_top": "#95A9AF",
+        "pattern_fill": "#D0DEE1",
+        "masked_light_pattern": "#F4FBF6",
+
+        "newborn_base": "#EEF9FC",
+        "newborn_base_gradient_bottom": "#F3FBF7",
+        "newborn_base_gradient_top": "#F3FBF7",
+        ...
+},
+    "PALEGREY": {
+        "base": "#C2D5D3",
+        "base_gradient_bottom": "#DEE4D0",
+        "base_gradient_top": "#C2D5D3",
+        "pattern": "#8EA7A7",
+        "pattern_gradient_top": "#677E7E",
+        "pattern_fill": "#A2B1B0",
+        "masked_light_pattern": "#E5EFE3",
+
+        "newborn_base": "#C2D5D3",
+        "newborn_base_gradient_bottom": "#D6E0D4",
+        "newborn_base_gradient_top": "#D6E0D4",
+        ...
+    }
+}
+```
+
+## Pelt Recipes
+
+The real meat and potatoes! Pelt recipes tell ClanGen how to put together patterns using the various pelt-part masks and color palettes. These are JSONs, all stored in sprites/dicts/pelt_recipes. A file should contain one recipe which describes how to build one pelt. 
+
+Let's take a look at a simple example - The SingleColourRecipe: 
+
+```
+{
+    "name": "SingleColourRecipe",
+    "layer_order": ["1", "2", "3"],
+    "layers": {
+        "3": {
+            "group_name": "SIMPLETOPGRAD",
+            "color": "base_gradient_top"
+        },
+        "2": {
+            "group_name": "SIMPLEBOTTOMGRAD",
+            "color": "base_gradient_bottom"
+        },
+        "1":
+        {
+            "group_name": "BASEMASK",
+            "color": "base"
+        }
+    },
+    "exceptions": []
+}
+```
+
+**First, we define `name`.** These must be unique for each recipe.  Use the convention {PatternName}Recipe. 
+
+**Secondly, we define `layer_order`.**  This is the order the layers will be built. The first entry is the bottom layer, and it builds up from there.  You can also have compound layers.  They will be constructed first, then layered.  Like below: 
+
+```
+"layer_order": ["1", ["2", "3"]]"
+```
+
+In this case, layers "2" and "3" will be constructed together, then laid onto "1". You can have as many compound-layer-within-compound-layers as you want. This may not seem useful - but it is! Most importably when combined with layer blendmodes. If you add a layer with the "mask" blendmode at the end of the compound layer, and you can mask the layers within without effecting those outside. 
+
+You may specify a compound layer blendmode and/or opacity by adding a special entry to the end of the compound order list.  This must start with "+". See below:
+
+```
+"layer_order": ["1", ["2", "3", "+blend_mode:mask,opacity:50"]]"
+
+OR
+
+"layer_order": ["1", ["2", "3", "+opacity:50"]]"
+
+OR 
+
+"layer_order": ["1", ["2", "3", "+blend_mode:mask"]]"
+```
+
+### **Thirdly, you define `layers`.**
+
+```
+"1" : {
+    "group_name": "BASEMASK", #Required
+    "color": "base", # Optional. 
+    "blend_mode": "normal" # Optional. Can be - multiply, mask, normal
+    "opacity": 100 # Optional. Default - 100. 
+  	"spritesheet": pelt_parts_masks # Optional. Default: pelt_parts_masks
+}
+```
+
+ Each layer must have, at minimum, a `group_name` to specify which pelt-part will be used. (See further down for all the pelt-parts and names).  
+
+ You can also have a `color`.  This is a color-name, as defined in the color palettes. The pelt-part will be recolored to this color. 
+
+ `blend_mode` refers to the mode in which the flat is applied. Right now there are three blend modes implemented. First, "mask", which is ptgame's `pygame.BLEND_MULT_RGBA` blend mode. This is most commonly used when the layer is a mask. Ie, when it serves to restrict the visible pixels of the layer below to only the ones in the current layer.  Secondly, "multiply",  which is the normal "multiply" blend mode you can find in any art program. Finally, "normal", which is normal. 
+
+`opacity` is optional, but allows you to define an opacity of a layer. 
+
+`spritesheet` is optional. This is the spritesheet to look for group_name in. Most helpful for tortie patches, which are in "patches_tortie". 
+
+You can also use layers to refer to other pelt recipes.  This will build the layer using that pelt's recipe, and some defined color palette. 
+
+```
+"1" : {
+    "pelt_name": "Classic"
+    "palette": "GRAY"
+}
+```
+
+And finally, for `"group_name"`, `"color"`, `"pelt_name"` or `"palette"`, you can refer to values stored in a cat's Pelt.  When doing this, use the name of the value surrounded by curly brackets {}. For example:
+
+```
+"1": {
+    "pelt_name": "{tortie_base}",
+    "palette": "{colour}"
+}
+```
+
+This is most useful for Torties, recipe below: 
+
+```
+{
+    "name": "TortieRecipe",
+    "layer_order": ["1", ["2", "3"]],
+    "layers": {
+        "3": {
+            "group_name": "{tortie_marking}",
+            "blend_mode": "mask",
+            "spritesheet": "patches_tortie"
+        },
+        "2": {
+            "pelt_name": "{tortie_pattern}",
+            "palette": "{tortie_colour}"
+        },
+        "1": {
+            "pelt_name": "{tortie_base}",
+            "palette": "{colour}"
+        }
+    },
+    exceptions: []
+}
+```
+
+## Pelt Exceptions
+
+**Exceptions** are for are specific cat-colors and poses, but are optional.  This allows certain cat-colors and poses to have special rules for building the pelt. You can override the layer_order, or modify the defined layers. Note that "layers" doesn't fully replace the global "layer" definitions, only modify them. 
+
+In order for the exception to apply, the cat must match at least one color condition, AND one pose condition, if both are provided. Otherwise, it must match at least one of the provided colors or poses. 
+
+The below example modifies a layer for newborn cats (of any color), removes a layer for WHITE cats (of any pose), and adds a layer for newborn cats who are GRAY or PALEGRAY. 
+
+Only one exception is applied at a time.  If a cat matches more than one exception, the exception with the most constraints is chosen. 
+
+```
+"exceptions": [
+        {
+            "poses": ["newborn0", "newborn1", "newborn2"],
+            "layers":{
+                "1":{
+                    "color": "base_1"
+                }
+            }
+        },
+        {
+            "colors": "WHITE",
+            "layer_order":["1", "3"]
+        },
+        {
+            "colors": ["GRAY", "PALEGRAY"],
+            "poses": ["newborn0", "newborn1", "newborn2"],
+            "layer_order":["1", "2", "3", "4"],
+            "layers":
+            {
+                "4":
+                    {
+                        "groupname": "SIMPLEBOTTOMGRAD",
+                        "color": "shade_1",
+                        "opacity": 50,
+                        "blend_mode": "normal"
+                    }
+            }
+        }
+    ]
+```
+
+## Pelts to Recipe Dictionary
+
+`sprites/dicts/pelt_to_recipe.json` links pelt recipes with the pelt names used for cats. A recipe can be assigned to muliple cat pelt-names. 
+
+```
+{
+    "Tortie": "TortieRecipe",
+    "Calico": "TortieRecipe",
+    "Classic": "ClassicRecipe",
+    "SingleColour": "SingleColourRecipe",
+    "Single": "SingleColourRecipe",
+    "TwoColour": "SingleColourRecipe",
+    "Tabby": "TabbyRecipe",
+    "Ticked": "TickedRecipe",
+    "Mackerel": "MackerelRecipe",
+    "Sokoke": "SokokeRecipe",
+    "Agouti": "AgoutiRecipe",
+    "Speckled": "SpeckledRecipe",
+    "Rosette": "RosetteRecipe",
+    "Freckled": "FreckledRecipe",
+    "Smoke": "SmokeRecipe",
+    "Singlestripe": "SinglestripeRecipe",
+    "Bengal": "BengalRecipe",
+    "Marbled": "MarbledRecipe",
+    "Masked": "MaskedRecipe"
+}
+```
+
+You might notice that "Single" isn't a pelt. What's up with that? Before this rework, Torties would generate a tortie_base or tortie_pattern of "single" for the basic, SingleColour coat. This line allows old torties to still work without save-file conversion. It will not be used for any newly generated torties. 
