@@ -122,9 +122,6 @@ class Cat:
     all_cats_list: List[Cat] = []
     ordered_cat_list: List[Cat] = []
 
-    # DEBUG SETTINGS
-    disable_random = False
-
     def __init__(
         self,
         ID: str,

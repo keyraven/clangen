@@ -155,8 +155,7 @@ def get_injured(
         }
 
     if (
-        not cat.disable_random
-        and len(new_injury.also_got) > 0
+        len(new_injury.also_got) > 0
         and not int(random() * 5)
     ):
         avoided = False

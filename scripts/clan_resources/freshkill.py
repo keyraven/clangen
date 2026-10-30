@@ -178,7 +178,7 @@ class FreshkillPile:
         self.needed_prey = needed_prey
 
     @staticmethod
-    def get_moonskip_catch_amount(disable_random: bool = False) -> int:
+    def get_moonskip_catch_amount() -> int:
         # first try to find all the warrior-like healthy cats
         possible_hunters = list(
             filter(
@@ -213,16 +213,8 @@ class FreshkillPile:
         prey_amount = 0
         for cat in possible_hunters:
             if using_sick_hunters:
-                if disable_random:
-                    prey_amount += mean(get_config("prey.auto_catch.not_working"))
-                    continue
                 prey_amount += random.choice(get_config("prey.auto_catch.not_working"))
             else:
-                if disable_random:
-                    prey_amount += mean(
-                        get_config(f"prey.auto_catch.{cat.status.rank}")
-                    )
-                    continue
                 prey_amount += random.choice(
                     get_config(f"prey.auto_catch.{cat.status.rank}")
                 )
